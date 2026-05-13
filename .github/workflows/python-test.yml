@@ -28,4 +28,4 @@ jobs:
       env:
         OPEN_AGENGA_ENDPOINT: ${{ secrets.OPEN_AGENGA_ENDPOINT }}
       run: |
-        pytest tests/test_integration.py
+        pytest tests/test_ingestion.py
