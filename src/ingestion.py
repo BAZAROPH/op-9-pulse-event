@@ -3,12 +3,13 @@ from dotenv import load_dotenv
 import requests
 import re
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_mistralai import MistralAIEmbeddings
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from datetime import datetime, timedelta
 
 load_dotenv()
+os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
 def get_events(params={}):
     """
@@ -88,7 +89,10 @@ def process_and_save_to_faiss(events):
 
     #4 Initialisation du modèle d'embedding
     #On transforme les phrases en vecteurs sentence avec sentence-trasnformer qui est local et gratuit. Idéal pour un POC
-    model_embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    model_embeddings = MistralAIEmbeddings(
+        model="mistral-embed",
+        api_key=os.getenv("MISTRAL_API")
+    )
 
     #5 Création de l'index FAISS à partir de tous les documents
     print(f"Vectorisation de {len(documents_list)} chunks...")
