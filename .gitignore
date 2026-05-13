@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-#L'index faiss
+# FAISS Index
 faiss_index_events/
 
 # Distribution / packaging
