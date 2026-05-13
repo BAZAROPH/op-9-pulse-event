@@ -14,7 +14,7 @@ def get_events(params={}):
     """
         Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni
     """
-    endpoint_url = os.getenv("OPEN_AGENGA_ENDPOINT")
+    endpoint_url = os.getenv("OPEN_AGENGA_ENDPOINT", "Pas durl")
     print(f"Connexion à : {endpoint_url}")
     
     response = requests.get(endpoint_url, params=params)

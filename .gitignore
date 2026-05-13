@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# FAISS Index
+faiss_index_events/
+
 # Distribution / packaging
 .Python
 build/
