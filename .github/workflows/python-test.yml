@@ -31,5 +31,6 @@ jobs:
         # Ajoute tes secrets pour tes "vrais tests"
         OPEN_AGENGA_ENDPOINT: ${{ vars.OPEN_AGENGA_ENDPOINT }}
         MISTRAL_API: ${{ secrets.MISTRAL_API }}
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
         pytest --cov=src tests/ --cov-report=term-missing
