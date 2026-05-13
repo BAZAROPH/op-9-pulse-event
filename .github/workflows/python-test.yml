@@ -26,6 +26,9 @@ jobs:
 
     - name: Run tests with real API
       env:
+        # Indique à Python de regarder à la racine pour trouver 'src'
+        PYTHONPATH: ${{ github.workspace }}
+        # Ajoute tes secrets pour tes "vrais tests"
         OPEN_AGENGA_ENDPOINT: ${{ secrets.OPEN_AGENGA_ENDPOINT }}
       run: |
-        pytest tests/test_ingestion.py
+        pytest --cov=src tests/ --cov-report=term-missing
