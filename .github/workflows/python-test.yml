@@ -29,6 +29,6 @@ jobs:
         # Indique à Python de regarder à la racine pour trouver 'src'
         PYTHONPATH: ${{ github.workspace }}
         # Ajoute tes secrets pour tes "vrais tests"
-        OPEN_AGENGA_ENDPOINT: ${{ secrets.OPEN_AGENGA_ENDPOINT }}
+        OPEN_AGENGA_ENDPOINT: ${{ vars.OPEN_AGENGA_ENDPOINT }}
       run: |
         pytest --cov=src tests/ --cov-report=term-missing
