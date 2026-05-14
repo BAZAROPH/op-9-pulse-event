@@ -28,7 +28,7 @@ def get_events(params={}):
     return response.json().get("results")
 
 
-def process_and_save_to_faiss(events):
+def process_and_save_to_faiss(events, output_path="faiss_index_events"):
     """
         Transforme les JSON d'Open Agenda en vecteurs et les sauvegarde localement
     """
@@ -100,10 +100,9 @@ def process_and_save_to_faiss(events):
 
     #6 Enregistrer l'index en local
     #Cela créer un dossier "faiss_index_events" contenant l'index et les métadonnées
-    output_directory = "faiss_index_events"
-    vector_store.save_local(output_directory)
+    vector_store.save_local(output_path)
 
-    print(f"Indexation terminée et sauvegardée dans '{output_directory}'")
+    print(f"Indexation terminée et sauvegardée dans '{output_path}'")
 
 
 #----- Test
