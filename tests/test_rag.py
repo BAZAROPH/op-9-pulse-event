@@ -3,9 +3,10 @@ import os
 from src.rag_manager import RAGManager
 from src.ingestion import process_and_save_to_faiss
 import shutil
+from pathlib import Path
 
 #Dossier temporaire pour  ne pas polluer
-TEMP_INDEX_PATH = "faiss_index_test"
+TEMP_INDEX_PATH = Path(__file__).resolve().parents[1] / "faiss_index_test"
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_test_index():

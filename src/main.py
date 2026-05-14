@@ -6,6 +6,8 @@ from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from src.rag_manager import RAGManager
 from src import ingestion
+from typing import Optional
+from datetime import datetime, timedelta
 
 #Format des requêtes entrantes
 class QueryRequest(BaseModel):
@@ -13,10 +15,20 @@ class QueryRequest(BaseModel):
 
 class RebuildRequest(BaseModel):
     confirm: str
+    city: Optional[str] = "Bordeaux"  # Par défaut Bordeaux
+    days_past: Optional[int] = 365    # Par défaut 1 an en arrière
+    days_future: Optional[int] = 365  # Par défaut 1 an en avant
+    limit: Optional[int] = 100
 
 #Lancement de l'app et chargement initial du moteur RAG
 app = FastAPI(title="Pulse Events RAG API")
-rag = RAGManager(index_path="faiss_index_events")
+
+#On essaie de charger, mais on ne crash pas si l'index n'est pas là
+try:
+    rag = RAGManager(index_path="faiss_index_events")
+except FileNotFoundError:
+    rag = None
+    print("Warning: Index non trouvé au démarrage. En attente d'un rebuild.")
 
 @app.get("/", status_code=status.HTTP_200_OK)
 def read_root():
@@ -31,6 +43,10 @@ def ask_question(request: QueryRequest):
         Route principale : elle reçoit ma question et interroge le RAG 
         pour obtenir une réponse basée sur les événements indexés.
     """
+
+    if rag is None:
+        raise HTTPException(status_code=503, detail="Le moteur RAG n'est pas encore prêt. Veuillez reconstruire l'index.")
+    
     try:
         if not request.question.strip():
             raise HTTPException(
@@ -55,29 +71,44 @@ def ask_question(request: QueryRequest):
             detail=str(e)
         )
 
-@app.post("/rebuild", status_code=status.HTTP_200_OK)
+@app.post("/rebuild")
 def rebuild_index(request: RebuildRequest):
     """
-        Route de maintenance : elle me permet de reconstruire l'index FAISS 
-        en récupérant les derniers événements et de mettre à jour le moteur en direct.
+        Route de reconstruction filtrée : permet de choisir la ville et la période.
     """
     try:
-        if request.confirm == "rebuild":
-            #Lancer la récupération et l'indexation
-            events = ingestion.get_events()
-            ingestion.process_and_save_to_faiss(events)
-
-            #Important : recharger l'index dans l'objet pour que l'API soit à jour
-            rag.vector_store = rag._load_index()
-
-            return {"message": "Rebuilding effectué avec succès !"}
-        
-        else:
-            #Si le mot-clé n'est pas bon, ne pas autoriser le rebuild
+        if request.confirm != "rebuild":
             return {"message": "Action annulée : mot-clé de confirmation incorrect."}
+
+        #1 Calcul des dates dynamiques
+        start_date = (datetime.now() - timedelta(days=request.days_past)).strftime("%Y-%m-%d")
+        end_date = (datetime.now() + timedelta(days=request.days_future)).strftime("%Y-%m-%d")
+        
+        #2 Construction de la requête filtrée
+        query_params = {
+            "where": f"firstdate_begin >= '{start_date}' AND firstdate_begin <= '{end_date}' AND location_city='{request.city}'",
+            "limit": request.limit
+        }
+
+        #3 Exécution de l'ingestion
+        print(f"Rebuild lancé pour {request.city} (du {start_date} au {end_date})")
+        event_results = ingestion.get_events(params=query_params)
+
+        if not event_results:
+            return {"message": f"Aucun événement trouvé pour {request.city} sur cette période."}
+
+        #4 Sauvegarde et rechargement
+        ingestion.process_and_save_to_faiss(events=event_results)
+        rag.vector_store = rag._load_index()
+
+        return {
+            "message": "Rebuilding effectué avec succès !",
+            "details": {
+                "city": request.city,
+                "events_count": len(event_results),
+                "period": f"{start_date} to {end_date}"
+            }
+        }
             
     except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-            detail=str(e)
-        )
+        raise HTTPException(status_code=500, detail=str(e))

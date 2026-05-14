@@ -1,8 +1,11 @@
 import os
+from pathlib import Path
 from src.ingestion import get_events, process_and_save_to_faiss
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
 def test_real_api_ingestion():
-    # 1 Vérifier que l'URL est bien configurée
+    #1 Vérifier que l'URL est bien configurée
     endpoint = os.getenv("OPEN_AGENGA_ENDPOINT")
     assert endpoint is not None, "L'URL de l'API n'est pas configurée dans le .env"
 
@@ -22,5 +25,5 @@ def test_real_faiss_creation():
     process_and_save_to_faiss(events)
     
     #3 On vérifie que les fichiers ont été créés physiquement
-    assert os.path.exists("faiss_index_events/index.faiss")
-    assert os.path.exists("faiss_index_events/index.pkl")
+    assert os.path.exists(PROJECT_ROOT / "faiss_index_events/index.faiss")
+    assert os.path.exists(PROJECT_ROOT / "faiss_index_events/index.pkl")

@@ -6,6 +6,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate 
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_classic.chains import create_retrieval_chain
+from pathlib import Path
 
 load_dotenv()
 
@@ -14,8 +15,18 @@ class RAGManager:
         Classe responsable de la rtecherche sémantique et de la génération de réponses via Mistral
     """
 
-    def __init__(self, index_path="faiss_index_events"):
-        self.index_path = index_path
+    def __init__(self, index_path=None):
+
+        #On définit la racine du projet (un niveau au-dessus de 'src')
+        #__file__ est le chemin de rag_manager.py
+        #.resolve().parents[1] remonte de deux crans pour arriver à la racine
+        self.project_root = Path(__file__).resolve().parents[1]
+        
+        # Si aucun chemin n'est fourni, on cible par défaut la racine
+        if index_path is None:
+            self.index_path = str(self.project_root / "faiss_index_events")
+        else:
+            self.index_path = index_path
 
         #On utilise le même modèle d'embedding que pour l'ingestion
         self.embeddings = MistralAIEmbeddings(
@@ -72,7 +83,6 @@ class RAGManager:
 
         #3 Exécuter la recherche et la génération
         response = retrieval_chain.invoke({"input": user_query})
-        print(response["context"])
         return response["answer"]
 
 #Test rapide

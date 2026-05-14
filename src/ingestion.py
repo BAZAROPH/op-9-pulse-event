@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 import requests
 import re
@@ -10,6 +11,7 @@ from datetime import datetime, timedelta
 
 load_dotenv()
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 def get_events(params={}):
     """
@@ -28,7 +30,7 @@ def get_events(params={}):
     return response.json().get("results")
 
 
-def process_and_save_to_faiss(events, output_path="faiss_index_events"):
+def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_events"):
     """
         Transforme les JSON d'Open Agenda en vecteurs et les sauvegarde localement
     """

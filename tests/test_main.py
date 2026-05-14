@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from src.ingestion import process_and_save_to_faiss
@@ -9,7 +10,7 @@ client = TestClient(app)
 import shutil
 
 #Dossier temporaire pour  ne pas polluer
-TEMP_INDEX_PATH = "faiss_index_test"
+TEMP_INDEX_PATH = Path(__file__).resolve().parents[1] / "faiss_index_test"
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_test_index():
@@ -146,6 +147,12 @@ def setup_test_index():
     #Générer l'index
     process_and_save_to_faiss(fake_events)
 
+    # On force le rechargement dans l'app si nécessaire
+    from src.main import rag as main_rag
+    import src.main as main_module
+    if main_module.rag is None:
+        from src.rag_manager import RAGManager
+        main_module.rag = RAGManager(index_path=TEMP_INDEX_PATH)
     
     yield
     
@@ -186,13 +193,15 @@ def test_ask_question_empty():
 
 def test_rebuild_index_success():
     """
-        Vérifie que la reconstruction se lance avec le bon mot-clé
+        Vérifie le rebuild avec filtres par défaut
     """
-    payload = {"confirm": "rebuild"}
+    payload = {"confirm": "rebuild", "city": "Bordeaux"}
     response = client.post("/rebuild", json=payload)
     
     assert response.status_code == 200
-    assert response.json()["message"] == "Rebuilding effectué avec succès !"
+    data = response.json()
+    assert "succès" in data["message"]
+    assert data["details"]["city"] == "Bordeaux"
 
 def test_rebuild_index_wrong_key():
     """
