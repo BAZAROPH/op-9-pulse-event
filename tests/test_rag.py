@@ -142,7 +142,7 @@ def setup_test_index():
     #Générer l'index
     process_and_save_to_faiss(fake_events)
 
-    # On renomme le dossier pour le test si besoin ou on s'assure qu'il existe
+    
     yield
     
     #Nettoyage après tests

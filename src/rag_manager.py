@@ -66,8 +66,8 @@ class RAGManager:
 
         #2 Créer  la chaine de récupéraation (Retrieval Chain)
         #Elle  cherche les 3 documents les plus proches
-        document_chain = create_stuff_documents_chain(llm=self.llm, prompt=prompt)
         retriever = self.vector_store.as_retriever(search_kwargs={"k": 3})
+        document_chain = create_stuff_documents_chain(llm=self.llm, prompt=prompt)
         retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
         #3 Exécuter la recherche et la génération
