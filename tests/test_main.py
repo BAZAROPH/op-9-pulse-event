@@ -3,14 +3,15 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from src.ingestion import process_and_save_to_faiss
-from src.main import app
-
-client = TestClient(app)
-
 import shutil
 
+from src.main import app
+client = TestClient(app)
+
+
 #Dossier temporaire pour  ne pas polluer
-TEMP_INDEX_PATH = Path(__file__).resolve().parents[1] / "faiss_index_test"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+TEMP_INDEX_PATH = PROJECT_ROOT / "faiss_index_test"
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_test_index():
@@ -152,7 +153,7 @@ def setup_test_index():
     import src.main as main_module
     if main_module.rag is None:
         from src.rag_manager import RAGManager
-        main_module.rag = RAGManager(index_path=TEMP_INDEX_PATH)
+        main_module.rag = RAGManager(index_path=str(TEMP_INDEX_PATH))
     
     yield
     
