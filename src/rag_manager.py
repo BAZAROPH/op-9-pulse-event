@@ -1,0 +1,84 @@
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+from dotenv import load_dotenv
+from langchain_mistralai import MistralAIEmbeddings, ChatMistralAI
+from langchain_community.vectorstores import FAISS
+from langchain_core.prompts import ChatPromptTemplate 
+from langchain_classic.chains.combine_documents import create_stuff_documents_chain
+from langchain_classic.chains import create_retrieval_chain
+
+load_dotenv()
+
+class RAGManager:
+    """
+        Classe responsable de la rtecherche sémantique et de la génération de réponses via Mistral
+    """
+
+    def __init__(self, index_path="faiss_index_events"):
+        self.index_path = index_path
+
+        #On utilise le même modèle d'embedding que pour l'ingestion
+        self.embeddings = MistralAIEmbeddings(
+            model="mistral-embed",
+            mistral_api_key=os.getenv("MISTRAL_API")
+        )
+
+        #Initialisation du modèle de chat Mistral
+        self.llm = ChatMistralAI(
+            model="mistral-small-latest", #Modèle pas trop généraliste et nopas treès gourmand, efficace pour le POC
+            temperature=0.2, #Basse pour évirter les hallucinations
+            api_key=os.getenv("MISTRAL_API")
+        )
+        self.vector_store = self._load_index()
+
+    def _load_index(self):
+        """
+            Méthode qui charge l'index FAISS local s'il existe
+        """
+        if os.path.exists(self.index_path):
+            print(f"Chargement de l'index depuis {self.index_path}...")
+
+            return FAISS.load_local(
+                folder_path=self.index_path,
+                embeddings=self.embeddings,
+                allow_dangerous_deserialization=True
+            )
+        else:
+            raise FileNotFoundError(f"Index introuvable dans le répertoire {self.index_path}")
+        
+    def ask_question(self, user_query):
+        """
+            Méthode qui prend une question, cherche danas les docs et répond via Mistral
+        """
+
+        #1 Définir le prompt system
+        system_prompt = (
+            "Tu es l'assistant de Puls-Events. Réponds aux questions en utilisant UNIQUEMENT "
+            "le contexte fourni ci-dessous. Si tu ne trouves pas la réponse, dis que tu ne sais pas poliment."
+            "\n\n"
+            "Contexte : {context}"
+        )
+
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            ("user", "{input}")
+        ])
+
+        #2 Créer  la chaine de récupéraation (Retrieval Chain)
+        #Elle  cherche les 3 documents les plus proches
+        document_chain = create_stuff_documents_chain(llm=self.llm, prompt=prompt)
+        retriever = self.vector_store.as_retriever(search_kwargs={"k": 3})
+        retrieval_chain = create_retrieval_chain(retriever, document_chain)
+
+        #3 Exécuter la recherche et la génération
+        response = retrieval_chain.invoke({"input": user_query})
+        print(response["context"])
+        return response["answer"]
+
+#Test rapide
+if __name__ == "__main__":
+    rag = RAGManager()
+    question = "Quels sont les évènements culturels prévus à Bordeaux ?"
+    answer = rag.ask_question(question),
+    print(f"\nQuestion : {question}")
+    print(f"\nRéponse : {answer}")

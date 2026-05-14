@@ -110,9 +110,10 @@ def process_and_save_to_faiss(events):
 if __name__ == "__main__":
     start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
     end_date = (datetime.now() + timedelta(days=365)).strftime("%Y-%m-%d")
+    location_city="Bordeaux"
     
     query_params = {
-        "where": f"firstdate_begin >= '{start_date}' AND firstdate_begin <= '{end_date}'",
+        "where": f"firstdate_begin >= '{start_date}' AND firstdate_begin <= '{end_date}' AND location_city='{location_city}'",
         "limit": 100
     }
 
