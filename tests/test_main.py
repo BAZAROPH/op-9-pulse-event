@@ -148,19 +148,19 @@ def setup_test_index():
     ]
 
     #Générer l'index
-    process_and_save_to_faiss(fake_events)
+    process_and_save_to_faiss(fake_events, str(TEMP_INDEX_PATH))
 
-    # On force le rechargement dans l'app si nécessaire
-    from src.main import rag as main_rag
+    #On force le rechargement dans l'app
     import src.main as main_module
-    if main_module.rag is None:
-        from src.rag_manager import RAGManager
-        main_module.rag = RAGManager(index_path=str(TEMP_INDEX_PATH))
+    from src.rag_manager import RAGManager
+    
+    #initialisetr le RAG avec le dossier de test
+    main_module.rag = RAGManager(index_path=str(TEMP_INDEX_PATH))
     
     yield
     
-    #Nettoyage après tests
-    if os.path.exists(TEMP_INDEX_PATH):
+    # Nettoyage
+    if TEMP_INDEX_PATH.exists():
         shutil.rmtree(TEMP_INDEX_PATH)
 
 def test_read_root():
