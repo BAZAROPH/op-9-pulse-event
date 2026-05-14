@@ -3,7 +3,7 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from src.rag_manager import RAGManager
 from src import ingestion
 from typing import Optional
@@ -11,14 +11,18 @@ from datetime import datetime, timedelta
 
 #Format des requêtes entrantes
 class QueryRequest(BaseModel):
-    question: str
+    question: str = Field(
+        ..., 
+        description="La question en langage naturel sur les événements",
+        examples=["Tu as des évènements à bordeaux ?"]
+    )
 
 class RebuildRequest(BaseModel):
     confirm: str
-    city: Optional[str] = "Bordeaux"  # Par défaut Bordeaux
-    days_past: Optional[int] = 365    # Par défaut 1 an en arrière
-    days_future: Optional[int] = 365  # Par défaut 1 an en avant
-    limit: Optional[int] = 100
+    city: Optional[str] = "Bordeaux" #Par défaut Bordeaux
+    days_past: Optional[int] = 365 #Par défaut 1 an en arrière
+    days_future: Optional[int] = 365 #Par défaut 1 an en avant
+    limit: Optional[int] = 100 #Par défaut 100 events
 
 #Lancement de l'app et chargement initial du moteur RAG
 app = FastAPI(title="Pulse Events RAG API")
@@ -37,7 +41,13 @@ def read_root():
         "message": "Puls-Events API is running"
     }
 
-@app.post("/ask", status_code=status.HTTP_200_OK)
+@app.post(
+    "/ask",
+    tags=["Moteur RAG"],
+    summary="Poser une question à l'IA",
+    response_description="La réponse générée par Mistral AI",
+    status_code=status.HTTP_200_OK
+)
 def ask_question(request: QueryRequest):
     """
         Route principale : elle reçoit ma question et interroge le RAG 
