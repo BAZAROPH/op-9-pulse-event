@@ -10,7 +10,9 @@ client = TestClient(app)
 
 
 #Dossier temporaire pour  ne pas polluer
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+#On cherche le dossier qui contient 'src' en remontant
+current_path = Path(__file__).resolve()
+PROJECT_ROOT = next(p for p in current_path.parents if (p / "src").exists())
 TEMP_INDEX_PATH = PROJECT_ROOT / "faiss_index_test"
 
 @pytest.fixture(scope="module", autouse=True)
