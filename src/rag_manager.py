@@ -36,7 +36,7 @@ class RAGManager:
 
         #Initialisation du modèle de chat Mistral
         self.llm = ChatMistralAI(
-            model="mistral-small-latest", #Modèle pas trop généraliste et nopas treès gourmand, efficace pour le POC
+            model="mistral-large-latest", #Modèle pas trop généraliste et nopas treès gourmand, efficace pour le POC
             temperature=0.2, #Basse pour évirter les hallucinations
             api_key=os.getenv("MISTRAL_API")
         )
@@ -57,6 +57,22 @@ class RAGManager:
         else:
             raise FileNotFoundError(f"Index introuvable dans le répertoire {self.index_path}")
         
+    def ask_question_with_context(self, user_query):
+        # Similaire à ask_question mais retourne le dictionnaire complet de la chain
+        retriever = self.vector_store.as_retriever(search_kwargs={"k": 3})
+        
+        # On récupère les docs manuellement pour Ragas
+        docs = retriever.invoke(user_query)
+        context_strings = [doc.page_content for doc in docs]
+        
+        # On génère la réponse
+        answer = self.ask_question(user_query)
+        
+        return {
+            "answer": answer,
+            "contexts": context_strings
+        }
+
     def ask_question(self, user_query):
         """
             Méthode qui prend une question, cherche danas les docs et répond via Mistral
@@ -76,8 +92,8 @@ class RAGManager:
         ])
 
         #2 Créer  la chaine de récupéraation (Retrieval Chain)
-        #Elle  cherche les 3 documents les plus proches
-        retriever = self.vector_store.as_retriever(search_kwargs={"k": 3})
+        #Elle  cherche les 6 documents les plus proches avec un seuil de 0.8
+        retriever = self.vector_store.as_retriever(search_kwargs={"k":6, "score_threshold": 0.8})
         document_chain = create_stuff_documents_chain(llm=self.llm, prompt=prompt)
         retrieval_chain = create_retrieval_chain(retriever, document_chain)
 

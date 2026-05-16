@@ -161,7 +161,7 @@ def test_rag_manager_initialization():
 
     rag = RAGManager(index_path=index_path)
     assert rag.vector_store is not None
-    assert rag.llm.model == "mistral-small-latest"
+    assert rag.llm.model == "mistral-large-latest"
 
 
 def test_rag_ask_question_real():

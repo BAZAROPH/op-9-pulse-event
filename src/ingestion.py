@@ -33,7 +33,32 @@ def get_events(params={}):
 def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_events"):
     """
         Transforme les JSON d'Open Agenda en vecteurs et les sauvegarde localement
+        Nettoyage Pandas et enrichissement des métadonnées inclus
     """
+    import pandas as pd
+    import re
+
+    #On transforme la liste d'évènements en DataFrame pour un nettoyage massif
+    df = pd.DataFrame(events)
+
+    #1 Nettoyage avec Pandas
+    #Remplacer les None par des chaînes vides ou des valeurs par défaut
+    df['title_fr'] = df['title_fr'].fillna("Évènement sans titre")
+    df['description_fr'] = df['description_fr'].fillna("Description en français non pécisée")
+    df['longdescription_fr'] = df['longdescription_fr'].fillna("")
+    df['conditions_fr'] = df['conditions_fr'].fillna("Non précisé")
+    df['location_name'] = df['location_name'].fillna("Lieu non précisé")
+    df['location_city'] = df['location_city'].fillna("Ville non précisée")
+    df['location_address'] = df['location_address'].fillna("")
+    df['daterange_fr'] = df['daterange_fr'].fillna("Date non communiquée")
+    
+    #Nettoyage HTML sur toute la colonne longdescription
+    df['clean_long_desc'] = df['longdescription_fr'].apply(lambda x: re.sub('<[^<]+?>', '', str(x)) if x else "")
+
+    #Extraction propre des âges (on garde des entiers pour les filtres futurs)
+    df['age_min'] = pd.to_numeric(df['age_min'], errors='coerce').fillna(0).astype(int)
+    df['age_max'] = pd.to_numeric(df['age_max'], errors='coerce').fillna(99).astype(int)
+
     documents_list = []
 
     #Configurer le splitter pour les chunks
@@ -43,40 +68,42 @@ def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_ev
         separators=["\n\n", "\n", ".", "?", "!", " "]
     )
 
-    for event in events:
-        #1 Préparation du texte (Fusion titre + description)
-        event_title = event.get("title_fr", "Évènement sans titre")
-        event_description = event.get("description_fr", "")
-        event_long_desc = event.get("longdescription_fr", "")
-        event_city = event.get("location_city", "Lieu non précisé")
-        event_address = event.get("location_address", "")
-        event_pricing = event.get("conditions_fr", "Non précisé")
-
-        #Nettoyage des balises HTML dans la description longue
-        clean_details = re.sub('<[^<]+?>', '', event_long_desc) if event_long_desc else ""
-
-        #2 Construction du texte pour la recherche sémantique
-        #On met les informations les plus riche ici
+    #On itère sur les lignes nettoyées du DataFrame
+    for _, row in df.iterrows():
+        
+        #2 Construction du texte pour la recherche sémantique (Le "Cerveau")
+        #On inclut l'adresse et le prix car l'utilisateur peut chercher "gratuit à bordeaux"
         semantic_content = (
-            f"Title: {event_title}\n"
-            f"City: {event_city}\n"
-            f"Description: {event_description}\n"
-            f"Details: {clean_details}"
+            f"Titre: {row['title_fr']}\n"
+            f"Lieu: {row['location_name']}, {row['location_city']} ({row['location_address']})\n"
+            f"Quand: {row['daterange_fr']}\n"
+            f"Prix/Conditions: {row['conditions_fr']}\n"
+            f"Public: De {row['age_min']} à {row['age_max']} ans\n"
+            f"Résumé: {row['description_fr']}\n"
+            f"Détails: {row['clean_long_desc']}"
         )
 
         #Découper le full_text en chunk
         text_chunks = text_splitter.split_text(semantic_content)
 
-        #3 Stocker les infos pratiques dans les métadatas
+        #3 Stocker le maximum d'infos pertinentes dans les métadatas (Le "Filtre")
         metadata_payload = {
-            "uid": event.get("uid"),
-            "url": event.get("canonicalurl"),
-            "image_url": event.get("image"),
-            "address": event_address,
-            "price": event_pricing,
-            "schedule": event.get("daterange_fr"),
-            "venue_name": event.get("location_name"),
-            "city": event_city
+            "uid": str(row.get("uid")),
+            "url": row.get("canonicalurl"),
+            "image_url": row.get("image"),
+            "title": row['title_fr'],
+            "address": row['location_address'],
+            "price": row['conditions_fr'],
+            "schedule": row['daterange_fr'],
+            "venue_name": row['location_name'],
+            "city": row['location_city'],
+            "postal_code": row.get("location_postalcode"),
+            "region": row.get("location_region"),
+            "age_min": row['age_min'],
+            "age_max": row['age_max'],
+            "latitude": row.get("location_coordinates", {}).get("lat") if isinstance(row.get("location_coordinates"), dict) else None,
+            "longitude": row.get("location_coordinates", {}).get("lon") if isinstance(row.get("location_coordinates"), dict) else None,
+            "updated_at": row.get("updatedat")
         }
 
         #Transformer chaque chunk en Document LangChain
