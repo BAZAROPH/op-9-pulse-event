@@ -22,7 +22,7 @@ class RAGManager:
         #.resolve().parents[1] remonte de deux crans pour arriver à la racine
         self.project_root = Path(__file__).resolve().parents[1]
         
-        # Si aucun chemin n'est fourni, on cible par défaut la racine
+        #Si aucun chemin n'est fourni, on cible par défaut la racine
         if index_path is None:
             self.index_path = str(self.project_root / "faiss_index_events")
         else:
@@ -58,14 +58,14 @@ class RAGManager:
             raise FileNotFoundError(f"Index introuvable dans le répertoire {self.index_path}")
         
     def ask_question_with_context(self, user_query):
-        # Similaire à ask_question mais retourne le dictionnaire complet de la chain
+        #Similaire à ask_question mais retourne le dictionnaire complet de la chain
         retriever = self.vector_store.as_retriever(search_kwargs={"k": 3})
         
-        # On récupère les docs manuellement pour Ragas
+        #On récupère les docs manuellement pour Ragas
         docs = retriever.invoke(user_query)
         context_strings = [doc.page_content for doc in docs]
         
-        # On génère la réponse
+        #On génère la réponse
         answer = self.ask_question(user_query)
         
         return {
@@ -93,7 +93,7 @@ class RAGManager:
 
         #2 Créer  la chaine de récupéraation (Retrieval Chain)
         #Elle  cherche les 6 documents les plus proches avec un seuil de 0.8
-        retriever = self.vector_store.as_retriever(search_kwargs={"k":6, "score_threshold": 0.8})
+        retriever = self.vector_store.as_retriever(search_kwargs={"k":3, "score_threshold": 0.8})
         document_chain = create_stuff_documents_chain(llm=self.llm, prompt=prompt)
         retrieval_chain = create_retrieval_chain(retriever, document_chain)
 

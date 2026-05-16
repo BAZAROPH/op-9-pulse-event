@@ -63,8 +63,8 @@ def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_ev
 
     #Configurer le splitter pour les chunks
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800, 
-        chunk_overlap=200, 
+        chunk_size=1024, 
+        chunk_overlap=250, 
         separators=["\n\n", "\n", ".", "?", "!", " "]
     )
 
