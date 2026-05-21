@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import logging
 import requests
 import re
 from langchain_community.vectorstores import FAISS
@@ -10,6 +11,9 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from datetime import datetime, timedelta
 
 load_dotenv()
+#Créer un logger pour l'ingestion
+logger_ingest = logging.getLogger("INGESTION")
+
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,16 +22,20 @@ def get_events(params={}):
         Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni
     """
     endpoint_url = os.getenv("OPEN_AGENGA_ENDPOINT", "Pas durl")
+    logger_ingest.info(f"Connexion à : {endpoint_url}")
     print(f"Connexion à : {endpoint_url}")
     
     response = requests.get(endpoint_url, params=params)
 
     if response.status_code != 200:
+        logger_ingest.error(f"❌ Erreur code : {response.status_code}")
         print(f"Erreur code : {response.status_code}")
         print(f"Erreur API : {response.text}")
         response.raise_for_status()
-    
-    return response.json().get("results")
+
+    results = response.json().get("results", [])
+    logger_ingest.info(f"{len(results)} évènements récupérés.")
+    return results
 
 
 def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_events"):
@@ -43,13 +51,14 @@ def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_ev
 
     #1 Nettoyage avec Pandas
     #Remplacer les None par des chaînes vides ou des valeurs par défaut
+    logger_ingest.info("Nettoyage des données via Pandas...")
     df['title_fr'] = df['title_fr'].fillna("Évènement sans titre")
     df['description_fr'] = df['description_fr'].fillna("Description en français non pécisée")
     df['longdescription_fr'] = df['longdescription_fr'].fillna("")
     df['conditions_fr'] = df['conditions_fr'].fillna("Non précisé")
     df['location_name'] = df['location_name'].fillna("Lieu non précisé")
     df['location_city'] = df['location_city'].fillna("Ville non précisée")
-    df['location_address'] = df['location_address'].fillna("")
+    df['location_address'] = df['location_address'].fillna("Adresse non communiquée")
     df['daterange_fr'] = df['daterange_fr'].fillna("Date non communiquée")
     
     #Nettoyage HTML sur toute la colonne longdescription
@@ -68,22 +77,23 @@ def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_ev
         separators=["\n\n", "\n", ".", "?", "!", " "]
     )
 
+    logger_ingest.info("Découpage en chunks (1024/250)...")
+
     #On itère sur les lignes nettoyées du DataFrame
     for _, row in df.iterrows():
         
         #2 Construction du texte pour la recherche sémantique (Le "Cerveau")
         #On inclut l'adresse et le prix car l'utilisateur peut chercher "gratuit à bordeaux"
         semantic_content = (
-            f"Titre: {row['title_fr']}\n"
-            f"Lieu: {row['location_name']}, {row['location_city']} ({row['location_address']})\n"
-            f"Quand: {row['daterange_fr']}\n"
-            f"Prix/Conditions: {row['conditions_fr']}\n"
-            f"Public: De {row['age_min']} à {row['age_max']} ans\n"
-            f"Résumé: {row['description_fr']}\n"
-            f"Détails: {row['clean_long_desc']}"
+            f"IDENTITÉ DE L'ÉVÉNEMENT :\n"
+            f"QUOI : {row['title_fr']}\n"
+            f"OÙ : {row['location_name']}, {row['location_address']}, {row['location_city']}\n"
+            f"QUAND : {row['daterange_fr']}\n"
+            f"CONDITIONS OU PRIX : {row['conditions_fr']}\n"
+            f"DESCRIPTION : {row['description_fr']}\n"
+            f"DÉTAILS COMPLÉMENTAIRES : {row['clean_long_desc']}"
         )
-
-        #Découper le full_text en chunk
+                #Découper le full_text en chunk
         text_chunks = text_splitter.split_text(semantic_content)
 
         #3 Stocker le maximum d'infos pertinentes dans les métadatas (Le "Filtre")
@@ -124,14 +134,17 @@ def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_ev
     )
 
     #5 Création de l'index FAISS à partir de tous les documents
+    logger_ingest.info(f"🧠 Vectorisation de {len(documents_list)} chunks...")
     print(f"Vectorisation de {len(documents_list)} chunks...")
     vector_store = FAISS.from_documents(documents_list, model_embeddings)
 
     #6 Enregistrer l'index en local
     #Cela créer un dossier "faiss_index_events" contenant l'index et les métadonnées
+    logger_ingest.info(f"💾 Sauvegarde dans : {output_path}")
     vector_store.save_local(output_path)
 
     print(f"Indexation terminée et sauvegardée dans '{output_path}'")
+    logger_ingest.info("Indexation terminée !")
 
 
 #----- Test

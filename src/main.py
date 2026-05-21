@@ -2,7 +2,9 @@ import os
 #Correctif indispensable pour la libomp sur mon Mac
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Request
+import logging
+import time
 from pydantic import BaseModel, Field
 from src.rag_manager import RAGManager
 from src import ingestion
@@ -24,8 +26,33 @@ class RebuildRequest(BaseModel):
     days_future: Optional[int] = 365 #Par défaut 1 an en avant
     limit: Optional[int] = 100 #Par défaut 100 events
 
+
+#Configurer le formatt des log
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%H:%M:%S"
+)
+logger_api = logging.getLogger("PULSE-API")
+
 #Lancement de l'app et chargement initial du moteur RAG
 app = FastAPI(title="Pulse Events RAG API")
+
+#Middleware qui va logger chaque appel d'api automatiquement
+@app.middleware("http")
+async def log_requestst(request:Request, call_next):
+    start_time = time.time()
+
+    #log à l'arriée
+    logger_api.info(f"➡ Requête: {request.method} {request.url.path}")
+
+    response = await call_next(request)
+
+    #Calcul di temps de reéponse
+    duration = time.time() - start_time
+    logger_api.info(f"⬅ Terminé | Status: {response.status_code} | Durée: {duration:.2f}s")
+
+    return response
 
 #On essaie de charger, mais on ne crash pas si l'index n'est pas là
 try:

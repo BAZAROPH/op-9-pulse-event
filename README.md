@@ -106,7 +106,7 @@ Le projet est packagé avec Docker pour faciliter son déploiement. Vous pouvez 
 ### 1. Construire l'image Docker
 Depuis la racine du projet (où se trouve le `Dockerfile`) :
 ```bash
-docker build -t pulse-event-rag .
+docker build -t pulse-event-rag:v1 .
 ```
 
 ### 2. Lancer le conteneur

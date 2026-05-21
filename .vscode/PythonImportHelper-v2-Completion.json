@@ -195,6 +195,15 @@
         "documentation": {}
     },
     {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
         "label": "requests",
         "kind": 6,
         "isExtraImport": true,
@@ -294,6 +303,14 @@
     },
     {
         "label": "status",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Request",
         "importPath": "fastapi",
         "description": "fastapi",
         "isExtraImport": true,
@@ -436,7 +453,7 @@
         "kind": 2,
         "importPath": "src.evaluation",
         "description": "src.evaluation",
-        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.getenv(\"MISTRAL_API\")\n    #1 Configurer le modèle juge (Mistral)\n    base_mistral = ChatMistralAI(model=\"mistral-small-latest\", mistral_api_key=api_key)\n    mistral_model = MistralDeepEval(base_mistral)\n    #2 Préparation du jeu de données (Ground Truth)\n    test_questions = [\n        {\n            \"question\": \"Quel est le prix de l'évènement qui à lieu le Mercredi 2 juillet au 15 rue causserouge ?\",",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.getenv(\"MISTRAL_API\")\n    #1 Configurer le modèle juge (Mistral)\n    base_mistral = ChatMistralAI(model=\"mistral-small-latest\", mistral_api_key=api_key)\n    mistral_model = MistralDeepEval(base_mistral)\n    #2 Préparation du jeu de données (Ground Truth)\n    test_questions = [\n        {\n            \"question\": \"Où se passe la Dédicace de Inoxtag et c'est quoi le prix\",",
         "detail": "src.evaluation",
         "documentation": {}
     },
@@ -445,7 +462,7 @@
         "kind": 2,
         "importPath": "src.ingestion",
         "description": "src.ingestion",
-        "peekOfCode": "def get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:\n        print(f\"Erreur code : {response.status_code}\")\n        print(f\"Erreur API : {response.text}\")",
+        "peekOfCode": "def get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:\n        logger_ingest.error(f\"❌ Erreur code : {response.status_code}\")",
         "detail": "src.ingestion",
         "documentation": {}
     },
@@ -459,11 +476,20 @@
         "documentation": {}
     },
     {
+        "label": "logger_ingest",
+        "kind": 5,
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "peekOfCode": "logger_ingest = logging.getLogger(\"INGESTION\")\nos.environ[\"HF_TOKEN\"] = os.getenv(\"HF_TOKEN\")\nPROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")",
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
         "label": "os.environ[\"HF_TOKEN\"]",
         "kind": 5,
         "importPath": "src.ingestion",
         "description": "src.ingestion",
-        "peekOfCode": "os.environ[\"HF_TOKEN\"] = os.getenv(\"HF_TOKEN\")\nPROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:",
+        "peekOfCode": "os.environ[\"HF_TOKEN\"] = os.getenv(\"HF_TOKEN\")\nPROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)",
         "detail": "src.ingestion",
         "documentation": {}
     },
@@ -472,7 +498,7 @@
         "kind": 5,
         "importPath": "src.ingestion",
         "description": "src.ingestion",
-        "peekOfCode": "PROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:\n        print(f\"Erreur code : {response.status_code}\")",
+        "peekOfCode": "PROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:",
         "detail": "src.ingestion",
         "documentation": {}
     },
@@ -490,7 +516,7 @@
         "kind": 6,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "class RebuildRequest(BaseModel):\n    confirm: str\n    city: Optional[str] = \"Bordeaux\" #Par défaut Bordeaux\n    days_past: Optional[int] = 365 #Par défaut 1 an en arrière\n    days_future: Optional[int] = 365 #Par défaut 1 an en avant\n    limit: Optional[int] = 100 #Par défaut 100 events\n#Lancement de l'app et chargement initial du moteur RAG\napp = FastAPI(title=\"Pulse Events RAG API\")\n#On essaie de charger, mais on ne crash pas si l'index n'est pas là\ntry:",
+        "peekOfCode": "class RebuildRequest(BaseModel):\n    confirm: str\n    city: Optional[str] = \"Bordeaux\" #Par défaut Bordeaux\n    days_past: Optional[int] = 365 #Par défaut 1 an en arrière\n    days_future: Optional[int] = 365 #Par défaut 1 an en avant\n    limit: Optional[int] = 100 #Par défaut 100 events\n#Configurer le formatt des log\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s [%(levelname)s] %(name)s: %(message)s\",",
         "detail": "src.main",
         "documentation": {}
     },
@@ -526,7 +552,16 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"\nfrom fastapi import FastAPI, HTTPException, status\nfrom pydantic import BaseModel, Field\nfrom src.rag_manager import RAGManager\nfrom src import ingestion\nfrom typing import Optional\nfrom datetime import datetime, timedelta\n#Format des requêtes entrantes\nclass QueryRequest(BaseModel):\n    question: str = Field(",
+        "peekOfCode": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"\nfrom fastapi import FastAPI, HTTPException, status, Request\nimport logging\nimport time\nfrom pydantic import BaseModel, Field\nfrom src.rag_manager import RAGManager\nfrom src import ingestion\nfrom typing import Optional\nfrom datetime import datetime, timedelta\n#Format des requêtes entrantes",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger_api",
+        "kind": 5,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "logger_api = logging.getLogger(\"PULSE-API\")\n#Lancement de l'app et chargement initial du moteur RAG\napp = FastAPI(title=\"Pulse Events RAG API\")\n#Middleware qui va logger chaque appel d'api automatiquement\n@app.middleware(\"http\")\nasync def log_requestst(request:Request, call_next):\n    start_time = time.time()\n    #log à l'arriée\n    logger_api.info(f\"➡ Requête: {request.method} {request.url.path}\")\n    response = await call_next(request)",
         "detail": "src.main",
         "documentation": {}
     },
@@ -535,7 +570,7 @@
         "kind": 5,
         "importPath": "src.main",
         "description": "src.main",
-        "peekOfCode": "app = FastAPI(title=\"Pulse Events RAG API\")\n#On essaie de charger, mais on ne crash pas si l'index n'est pas là\ntry:\n    rag = RAGManager(index_path=\"faiss_index_events\")\nexcept FileNotFoundError:\n    rag = None\n    print(\"Warning: Index non trouvé au démarrage. En attente d'un rebuild.\")\n@app.get(\"/\", status_code=status.HTTP_200_OK)\ndef read_root():\n    return {",
+        "peekOfCode": "app = FastAPI(title=\"Pulse Events RAG API\")\n#Middleware qui va logger chaque appel d'api automatiquement\n@app.middleware(\"http\")\nasync def log_requestst(request:Request, call_next):\n    start_time = time.time()\n    #log à l'arriée\n    logger_api.info(f\"➡ Requête: {request.method} {request.url.path}\")\n    response = await call_next(request)\n    #Calcul di temps de reéponse\n    duration = time.time() - start_time",
         "detail": "src.main",
         "documentation": {}
     },
@@ -553,7 +588,16 @@
         "kind": 5,
         "importPath": "src.rag_manager",
         "description": "src.rag_manager",
-        "peekOfCode": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"\nfrom dotenv import load_dotenv\nfrom langchain_mistralai import MistralAIEmbeddings, ChatMistralAI\nfrom langchain_community.vectorstores import FAISS\nfrom langchain_core.prompts import ChatPromptTemplate \nfrom langchain_classic.chains.combine_documents import create_stuff_documents_chain\nfrom langchain_classic.chains import create_retrieval_chain\nfrom pathlib import Path\nload_dotenv()\nclass RAGManager:",
+        "peekOfCode": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"\nfrom dotenv import load_dotenv\nimport logging\nfrom langchain_mistralai import MistralAIEmbeddings, ChatMistralAI\nfrom langchain_community.vectorstores import FAISS\nfrom langchain_core.prompts import ChatPromptTemplate \nfrom langchain_classic.chains.combine_documents import create_stuff_documents_chain\nfrom langchain_classic.chains import create_retrieval_chain\nfrom pathlib import Path\nload_dotenv()",
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "logger_rag",
+        "kind": 5,
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "peekOfCode": "logger_rag = logging.getLogger(\"RAG-ENGINE\")\nclass RAGManager:\n    \"\"\"\n        Classe responsable de la rtecherche sémantique et de la génération de réponses via Mistral\n    \"\"\"\n    def __init__(self, index_path=None):\n        #On définit la racine du projet (un niveau au-dessus de 'src')\n        #__file__ est le chemin de rag_manager.py\n        #.resolve().parents[1] remonte de deux crans pour arriver à la racine\n        self.project_root = Path(__file__).resolve().parents[1]",
         "detail": "src.rag_manager",
         "documentation": {}
     },

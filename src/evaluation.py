@@ -39,16 +39,16 @@ def main():
     #2 Préparation du jeu de données (Ground Truth)
     test_questions = [
         {
-            "question": "Quel est le prix de l'évènement qui à lieu le Mercredi 2 juillet au 15 rue causserouge ?",
-            "ground_truth": "10€ sur inscription"
+            "question": "Où se passe la Dédicace de Inoxtag et c'est quoi le prix",
+            "ground_truth": "8 rue de la Vieille Tour, Bordeaux, prix non précisé"
         },
         {
-            "question": "Quand a lieu l'évènement sur les stages professionnels en Europe ?",
-            "ground_truth": "Mercredi 10 septembre 2025, 09h30"
+            "question": "L'entrée à Les RAMDAM du rire coûte combien ?",
+            "ground_truth": "Place solidaire à 12€"
         },
         {
-            "question": "Quels sont les évènements qui ont lieu à la Place Pey-Berland, 33000 Bordeaux ? Pour 6 euros",
-            "ground_truth": "Visite guidée : Le gascon, la nature et le paysage à Bordeaux"
+            "question": "À 8 - 13 Cours Georges Clemenceau, le Vendredi 13 juin 2025, il y a quel évènement",
+            "ground_truth": "Saga Trilogy 3 – Boléro"
         }
     ]
 
