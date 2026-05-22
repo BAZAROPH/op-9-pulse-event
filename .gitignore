@@ -9,6 +9,12 @@ __pycache__/
 # FAISS Index
 faiss_index_events/
 
+#Fichiers de soutenances
+GUIDE_EVALUATION.pdf
+GUIDE_EVALUATION.md
+Un-assistant-conversationnel-RAG-pour-les-evenements-culturels.pdf
+
+
 # Distribution / packaging
 .Python
 build/
@@ -219,3 +225,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+Concevez_et_déployez_un_système_RAG_COULIBALY_CHEICK_OUMAR/COULIBALY_CHEICK_OUMART_n_1_guide_04_2026.pdf
+Concevez_et_déployez_un_système_RAG_COULIBALY_CHEICK_OUMAR/COULIBALY_CHEICK_OUMART_n_2_support_presentation_04_2026.pdf
+.gitignore
+Concevez_et_déployez_un_système_RAG_COULIBALY_CHEICK_OUMAR.zip
