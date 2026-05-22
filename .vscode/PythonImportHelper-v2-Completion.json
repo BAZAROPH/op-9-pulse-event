@@ -1,0 +1,757 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "FaithfulnessMetric",
+        "importPath": "deepeval.metrics",
+        "description": "deepeval.metrics",
+        "isExtraImport": true,
+        "detail": "deepeval.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "AnswerRelevancyMetric",
+        "importPath": "deepeval.metrics",
+        "description": "deepeval.metrics",
+        "isExtraImport": true,
+        "detail": "deepeval.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "ContextualPrecisionMetric",
+        "importPath": "deepeval.metrics",
+        "description": "deepeval.metrics",
+        "isExtraImport": true,
+        "detail": "deepeval.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "ContextualRecallMetric",
+        "importPath": "deepeval.metrics",
+        "description": "deepeval.metrics",
+        "isExtraImport": true,
+        "detail": "deepeval.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "LLMTestCase",
+        "importPath": "deepeval.test_case",
+        "description": "deepeval.test_case",
+        "isExtraImport": true,
+        "detail": "deepeval.test_case",
+        "documentation": {}
+    },
+    {
+        "label": "DeepEvalBaseLLM",
+        "importPath": "deepeval.models.base_model",
+        "description": "deepeval.models.base_model",
+        "isExtraImport": true,
+        "detail": "deepeval.models.base_model",
+        "documentation": {}
+    },
+    {
+        "label": "ChatMistralAI",
+        "importPath": "langchain_mistralai",
+        "description": "langchain_mistralai",
+        "isExtraImport": true,
+        "detail": "langchain_mistralai",
+        "documentation": {}
+    },
+    {
+        "label": "MistralAIEmbeddings",
+        "importPath": "langchain_mistralai",
+        "description": "langchain_mistralai",
+        "isExtraImport": true,
+        "detail": "langchain_mistralai",
+        "documentation": {}
+    },
+    {
+        "label": "MistralAIEmbeddings",
+        "importPath": "langchain_mistralai",
+        "description": "langchain_mistralai",
+        "isExtraImport": true,
+        "detail": "langchain_mistralai",
+        "documentation": {}
+    },
+    {
+        "label": "ChatMistralAI",
+        "importPath": "langchain_mistralai",
+        "description": "langchain_mistralai",
+        "isExtraImport": true,
+        "detail": "langchain_mistralai",
+        "documentation": {}
+    },
+    {
+        "label": "RAGManager",
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "isExtraImport": true,
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "RAGManager",
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "isExtraImport": true,
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "RAGManager",
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "isExtraImport": true,
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "FAISS",
+        "importPath": "langchain_community.vectorstores",
+        "description": "langchain_community.vectorstores",
+        "isExtraImport": true,
+        "detail": "langchain_community.vectorstores",
+        "documentation": {}
+    },
+    {
+        "label": "FAISS",
+        "importPath": "langchain_community.vectorstores",
+        "description": "langchain_community.vectorstores",
+        "isExtraImport": true,
+        "detail": "langchain_community.vectorstores",
+        "documentation": {}
+    },
+    {
+        "label": "Document",
+        "importPath": "langchain_core.documents",
+        "description": "langchain_core.documents",
+        "isExtraImport": true,
+        "detail": "langchain_core.documents",
+        "documentation": {}
+    },
+    {
+        "label": "RecursiveCharacterTextSplitter",
+        "importPath": "langchain_text_splitters",
+        "description": "langchain_text_splitters",
+        "isExtraImport": true,
+        "detail": "langchain_text_splitters",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Request",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "ingestion",
+        "importPath": "src",
+        "description": "src",
+        "isExtraImport": true,
+        "detail": "src",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "ChatPromptTemplate",
+        "importPath": "langchain_core.prompts",
+        "description": "langchain_core.prompts",
+        "isExtraImport": true,
+        "detail": "langchain_core.prompts",
+        "documentation": {}
+    },
+    {
+        "label": "create_stuff_documents_chain",
+        "importPath": "langchain_classic.chains.combine_documents",
+        "description": "langchain_classic.chains.combine_documents",
+        "isExtraImport": true,
+        "detail": "langchain_classic.chains.combine_documents",
+        "documentation": {}
+    },
+    {
+        "label": "create_retrieval_chain",
+        "importPath": "langchain_classic.chains",
+        "description": "langchain_classic.chains",
+        "isExtraImport": true,
+        "detail": "langchain_classic.chains",
+        "documentation": {}
+    },
+    {
+        "label": "get_events",
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "isExtraImport": true,
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "process_and_save_to_faiss",
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "isExtraImport": true,
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "process_and_save_to_faiss",
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "isExtraImport": true,
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "process_and_save_to_faiss",
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "isExtraImport": true,
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "pytest",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pytest",
+        "description": "pytest",
+        "detail": "pytest",
+        "documentation": {}
+    },
+    {
+        "label": "TestClient",
+        "importPath": "fastapi.testclient",
+        "description": "fastapi.testclient",
+        "isExtraImport": true,
+        "detail": "fastapi.testclient",
+        "documentation": {}
+    },
+    {
+        "label": "shutil",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "importPath": "src.main",
+        "description": "src.main",
+        "isExtraImport": true,
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "MistralDeepEval",
+        "kind": 6,
+        "importPath": "src.evaluation",
+        "description": "src.evaluation",
+        "peekOfCode": "class MistralDeepEval(DeepEvalBaseLLM):\n    def __init__(self, model):\n        self.model = model\n    def load_model(self):\n        return self.model\n    def generate(self, prompt: str) -> str:\n        return self.model.invoke(prompt).content\n    async def a_generate(self, prompt: str) -> str:\n        res = await self.model.ainvoke(prompt)\n        return res.content",
+        "detail": "src.evaluation",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "src.evaluation",
+        "description": "src.evaluation",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.getenv(\"MISTRAL_API\")\n    #1 Configurer le modèle juge (Mistral)\n    base_mistral = ChatMistralAI(model=\"mistral-small-latest\", mistral_api_key=api_key)\n    mistral_model = MistralDeepEval(base_mistral)\n    #2 Préparation du jeu de données (Ground Truth)\n    test_questions = [\n        {\n            \"question\": \"Où se passe la Dédicace de Inoxtag et c'est quoi le prix\",",
+        "detail": "src.evaluation",
+        "documentation": {}
+    },
+    {
+        "label": "get_events",
+        "kind": 2,
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "peekOfCode": "def get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:\n        logger_ingest.error(f\"❌ Erreur code : {response.status_code}\")",
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "process_and_save_to_faiss",
+        "kind": 2,
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "peekOfCode": "def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / \"faiss_index_events\"):\n    \"\"\"\n        Transforme les JSON d'Open Agenda en vecteurs et les sauvegarde localement\n        Nettoyage Pandas et enrichissement des métadonnées inclus\n    \"\"\"\n    import pandas as pd\n    import re\n    #On transforme la liste d'évènements en DataFrame pour un nettoyage massif\n    df = pd.DataFrame(events)\n    #1 Nettoyage avec Pandas",
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "logger_ingest",
+        "kind": 5,
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "peekOfCode": "logger_ingest = logging.getLogger(\"INGESTION\")\nos.environ[\"HF_TOKEN\"] = os.getenv(\"HF_TOKEN\")\nPROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")",
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"HF_TOKEN\"]",
+        "kind": 5,
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "peekOfCode": "os.environ[\"HF_TOKEN\"] = os.getenv(\"HF_TOKEN\")\nPROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)",
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "PROJECT_ROOT",
+        "kind": 5,
+        "importPath": "src.ingestion",
+        "description": "src.ingestion",
+        "peekOfCode": "PROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef get_events(params={}):\n    \"\"\"\n        Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni\n    \"\"\"\n    endpoint_url = os.getenv(\"OPEN_AGENGA_ENDPOINT\", \"Pas durl\")\n    logger_ingest.info(f\"Connexion à : {endpoint_url}\")\n    print(f\"Connexion à : {endpoint_url}\")\n    response = requests.get(endpoint_url, params=params)\n    if response.status_code != 200:",
+        "detail": "src.ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "QueryRequest",
+        "kind": 6,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "class QueryRequest(BaseModel):\n    question: str = Field(\n        ..., \n        description=\"La question en langage naturel sur les événements\",\n        examples=[\"Tu as des évènements à bordeaux ?\"]\n    )\nclass RebuildRequest(BaseModel):\n    confirm: str\n    city: Optional[str] = \"Bordeaux\" #Par défaut Bordeaux\n    days_past: Optional[int] = 365 #Par défaut 1 an en arrière",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "RebuildRequest",
+        "kind": 6,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "class RebuildRequest(BaseModel):\n    confirm: str\n    city: Optional[str] = \"Bordeaux\" #Par défaut Bordeaux\n    days_past: Optional[int] = 365 #Par défaut 1 an en arrière\n    days_future: Optional[int] = 365 #Par défaut 1 an en avant\n    limit: Optional[int] = 100 #Par défaut 100 events\n#Configurer le formatt des log\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s [%(levelname)s] %(name)s: %(message)s\",",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "read_root",
+        "kind": 2,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "def read_root():\n    return {\n        \"status\": \"online\",\n        \"message\": \"Puls-Events API is running\"\n    }\n@app.post(\n    \"/ask\",\n    tags=[\"Moteur RAG\"],\n    summary=\"Poser une question à l'IA\",\n    response_description=\"La réponse générée par Mistral AI\",",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "ask_question",
+        "kind": 2,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "def ask_question(request: QueryRequest):\n    \"\"\"\n        Route principale : elle reçoit ma question et interroge le RAG \n        pour obtenir une réponse basée sur les événements indexés.\n    \"\"\"\n    if rag is None:\n        raise HTTPException(status_code=503, detail=\"Le moteur RAG n'est pas encore prêt. Veuillez reconstruire l'index.\")\n    try:\n        if not request.question.strip():\n            raise HTTPException(",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "rebuild_index",
+        "kind": 2,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "def rebuild_index(request: RebuildRequest):\n    \"\"\"\n        Route de reconstruction filtrée : permet de choisir la ville et la période.\n    \"\"\"\n    try:\n        if request.confirm != \"rebuild\":\n            return {\"message\": \"Action annulée : mot-clé de confirmation incorrect.\"}\n        #1 Calcul des dates dynamiques\n        start_date = (datetime.now() - timedelta(days=request.days_past)).strftime(\"%Y-%m-%d\")\n        end_date = (datetime.now() + timedelta(days=request.days_future)).strftime(\"%Y-%m-%d\")",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"KMP_DUPLICATE_LIB_OK\"]",
+        "kind": 5,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"\nfrom fastapi import FastAPI, HTTPException, status, Request\nimport logging\nimport time\nfrom pydantic import BaseModel, Field\nfrom src.rag_manager import RAGManager\nfrom src import ingestion\nfrom typing import Optional\nfrom datetime import datetime, timedelta\n#Format des requêtes entrantes",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger_api",
+        "kind": 5,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "logger_api = logging.getLogger(\"PULSE-API\")\n#Lancement de l'app et chargement initial du moteur RAG\napp = FastAPI(title=\"Pulse Events RAG API\")\n#Middleware qui va logger chaque appel d'api automatiquement\n@app.middleware(\"http\")\nasync def log_requestst(request:Request, call_next):\n    start_time = time.time()\n    #log à l'arriée\n    logger_api.info(f\"➡ Requête: {request.method} {request.url.path}\")\n    response = await call_next(request)",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "src.main",
+        "description": "src.main",
+        "peekOfCode": "app = FastAPI(title=\"Pulse Events RAG API\")\n#Middleware qui va logger chaque appel d'api automatiquement\n@app.middleware(\"http\")\nasync def log_requestst(request:Request, call_next):\n    start_time = time.time()\n    #log à l'arriée\n    logger_api.info(f\"➡ Requête: {request.method} {request.url.path}\")\n    response = await call_next(request)\n    #Calcul di temps de reéponse\n    duration = time.time() - start_time",
+        "detail": "src.main",
+        "documentation": {}
+    },
+    {
+        "label": "RAGManager",
+        "kind": 6,
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "peekOfCode": "class RAGManager:\n    \"\"\"\n        Classe responsable de la rtecherche sémantique et de la génération de réponses via Mistral\n    \"\"\"\n    def __init__(self, index_path=None):\n        #On définit la racine du projet (un niveau au-dessus de 'src')\n        #__file__ est le chemin de rag_manager.py\n        #.resolve().parents[1] remonte de deux crans pour arriver à la racine\n        self.project_root = Path(__file__).resolve().parents[1]\n        #Si aucun chemin n'est fourni, on cible par défaut la racine",
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"KMP_DUPLICATE_LIB_OK\"]",
+        "kind": 5,
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "peekOfCode": "os.environ[\"KMP_DUPLICATE_LIB_OK\"] = \"TRUE\"\nfrom dotenv import load_dotenv\nimport logging\nfrom langchain_mistralai import MistralAIEmbeddings, ChatMistralAI\nfrom langchain_community.vectorstores import FAISS\nfrom langchain_core.prompts import ChatPromptTemplate \nfrom langchain_classic.chains.combine_documents import create_stuff_documents_chain\nfrom langchain_classic.chains import create_retrieval_chain\nfrom pathlib import Path\nload_dotenv()",
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "logger_rag",
+        "kind": 5,
+        "importPath": "src.rag_manager",
+        "description": "src.rag_manager",
+        "peekOfCode": "logger_rag = logging.getLogger(\"RAG-ENGINE\")\nclass RAGManager:\n    \"\"\"\n        Classe responsable de la rtecherche sémantique et de la génération de réponses via Mistral\n    \"\"\"\n    def __init__(self, index_path=None):\n        #On définit la racine du projet (un niveau au-dessus de 'src')\n        #__file__ est le chemin de rag_manager.py\n        #.resolve().parents[1] remonte de deux crans pour arriver à la racine\n        self.project_root = Path(__file__).resolve().parents[1]",
+        "detail": "src.rag_manager",
+        "documentation": {}
+    },
+    {
+        "label": "test_real_api_ingestion",
+        "kind": 2,
+        "importPath": "tests.test_ingestion",
+        "description": "tests.test_ingestion",
+        "peekOfCode": "def test_real_api_ingestion():\n    #1 Vérifier que l'URL est bien configurée\n    endpoint = os.getenv(\"OPEN_AGENGA_ENDPOINT\")\n    assert endpoint is not None, \"L'URL de l'API n'est pas configurée dans le .env\"\n    #2 Test de l'appel réel\n    params = {\"limit\": 2}\n    events = get_events(params=params)\n    assert isinstance(events, list)\n    assert len(events) > 0, \"L'API a renvoyé une liste vide\"\n    assert \"title_fr\" in events[0], \"La structure du JSON ne contient pas 'title_fr'\"",
+        "detail": "tests.test_ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "test_real_faiss_creation",
+        "kind": 2,
+        "importPath": "tests.test_ingestion",
+        "description": "tests.test_ingestion",
+        "peekOfCode": "def test_real_faiss_creation():\n    #1 On récupère 2 événements réels\n    events = get_events(params={\"limit\": 2})\n    #2 On lance la création réelle de l'index\n    process_and_save_to_faiss(events)\n    #3 On vérifie que les fichiers ont été créés physiquement\n    assert os.path.exists(PROJECT_ROOT / \"faiss_index_events/index.faiss\")\n    assert os.path.exists(PROJECT_ROOT / \"faiss_index_events/index.pkl\")",
+        "detail": "tests.test_ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "PROJECT_ROOT",
+        "kind": 5,
+        "importPath": "tests.test_ingestion",
+        "description": "tests.test_ingestion",
+        "peekOfCode": "PROJECT_ROOT = Path(__file__).resolve().parents[1]\ndef test_real_api_ingestion():\n    #1 Vérifier que l'URL est bien configurée\n    endpoint = os.getenv(\"OPEN_AGENGA_ENDPOINT\")\n    assert endpoint is not None, \"L'URL de l'API n'est pas configurée dans le .env\"\n    #2 Test de l'appel réel\n    params = {\"limit\": 2}\n    events = get_events(params=params)\n    assert isinstance(events, list)\n    assert len(events) > 0, \"L'API a renvoyé une liste vide\"",
+        "detail": "tests.test_ingestion",
+        "documentation": {}
+    },
+    {
+        "label": "setup_test_index",
+        "kind": 2,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "def setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.\n        Supprime le dossier après tests.\n    \"\"\"\n    #On prépare les faux events\n    fake_events = [\n        {\n            \"uid\": \"43692627\",\n            \"slug\": \"dedicace-de-peyo-lizarazu\",",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "test_read_root",
+        "kind": 2,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "def test_read_root():\n    \"\"\"\n        Vérifie que l'API répond au ping initial\n    \"\"\"\n    response = client.get(\"/\")\n    assert response.status_code == 200\n    assert response.json()[\"status\"] == \"online\"\ndef test_ask_question_success():\n    \"\"\"\n        Vérifie que le RAG répond correctement à une question valide",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "test_ask_question_success",
+        "kind": 2,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "def test_ask_question_success():\n    \"\"\"\n        Vérifie que le RAG répond correctement à une question valide\n    \"\"\"\n    payload = {\"question\": \"Quels sont les événements à Paris ?\"}\n    response = client.post(\"/ask\", json=payload)\n    assert response.status_code == 200\n    data = response.json()\n    assert \"answer\" in data\n    assert data[\"question\"] == payload[\"question\"]",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "test_ask_question_empty",
+        "kind": 2,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "def test_ask_question_empty():\n    \"\"\"\n        Vérifie que l'API renvoie bien une erreur 400 si la question est vide\n    \"\"\"\n    payload = {\"question\": \"   \"}\n    response = client.post(\"/ask\", json=payload)\n    #Ici on attend bien une 400 car on a corrigé le bloc try/except\n    assert response.status_code == 400\n    assert \"vide\" in response.json()[\"detail\"]\ndef test_rebuild_index_success():",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "test_rebuild_index_success",
+        "kind": 2,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "def test_rebuild_index_success():\n    \"\"\"\n        Vérifie le rebuild avec filtres par défaut\n    \"\"\"\n    payload = {\"confirm\": \"rebuild\", \"city\": \"Bordeaux\"}\n    response = client.post(\"/rebuild\", json=payload)\n    assert response.status_code == 200\n    data = response.json()\n    assert \"succès\" in data[\"message\"]\n    assert data[\"details\"][\"city\"] == \"Bordeaux\"",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "test_rebuild_index_wrong_key",
+        "kind": 2,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "def test_rebuild_index_wrong_key():\n    \"\"\"\n        Vérifie que l'action est annulée si le mot-clé est faux\n    \"\"\"\n    payload = {\"confirm\": \"invalid_key\"}\n    response = client.post(\"/rebuild\", json=payload)\n    assert response.status_code == 200\n    assert \"annulée\" in response.json()[\"message\"]",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 5,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "client = TestClient(app)\n#Dossier temporaire pour  ne pas polluer\n#On cherche le dossier qui contient 'src' en remontant\ncurrent_path = Path(__file__).resolve()\nPROJECT_ROOT = next(p for p in current_path.parents if (p / \"src\").exists())\nTEMP_INDEX_PATH = PROJECT_ROOT / \"faiss_index_test\"\n@pytest.fixture(scope=\"module\", autouse=True)\ndef setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "current_path",
+        "kind": 5,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "current_path = Path(__file__).resolve()\nPROJECT_ROOT = next(p for p in current_path.parents if (p / \"src\").exists())\nTEMP_INDEX_PATH = PROJECT_ROOT / \"faiss_index_test\"\n@pytest.fixture(scope=\"module\", autouse=True)\ndef setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.\n        Supprime le dossier après tests.\n    \"\"\"\n    #On prépare les faux events",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "PROJECT_ROOT",
+        "kind": 5,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "PROJECT_ROOT = next(p for p in current_path.parents if (p / \"src\").exists())\nTEMP_INDEX_PATH = PROJECT_ROOT / \"faiss_index_test\"\n@pytest.fixture(scope=\"module\", autouse=True)\ndef setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.\n        Supprime le dossier après tests.\n    \"\"\"\n    #On prépare les faux events\n    fake_events = [",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "TEMP_INDEX_PATH",
+        "kind": 5,
+        "importPath": "tests.test_main",
+        "description": "tests.test_main",
+        "peekOfCode": "TEMP_INDEX_PATH = PROJECT_ROOT / \"faiss_index_test\"\n@pytest.fixture(scope=\"module\", autouse=True)\ndef setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.\n        Supprime le dossier après tests.\n    \"\"\"\n    #On prépare les faux events\n    fake_events = [\n        {",
+        "detail": "tests.test_main",
+        "documentation": {}
+    },
+    {
+        "label": "setup_test_index",
+        "kind": 2,
+        "importPath": "tests.test_rag",
+        "description": "tests.test_rag",
+        "peekOfCode": "def setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.\n        Supprime le dossier après tests.\n    \"\"\"\n    #On prépare les faux events\n    fake_events = [\n        {\n            \"uid\": \"43692627\",\n            \"slug\": \"dedicace-de-peyo-lizarazu\",",
+        "detail": "tests.test_rag",
+        "documentation": {}
+    },
+    {
+        "label": "test_rag_manager_initialization",
+        "kind": 2,
+        "importPath": "tests.test_rag",
+        "description": "tests.test_rag",
+        "peekOfCode": "def test_rag_manager_initialization():\n    \"\"\"\n        Vérifie que le manager charge bien l'index sans planter\n    \"\"\"\n    index_path = \"faiss_index_events\"\n    if not os.path.exists(index_path):\n        pytest.skip(\"L'index FAISS n'existe pas, impossible de tester le chargement.\")\n    rag = RAGManager(index_path=index_path)\n    assert rag.vector_store is not None\n    assert rag.llm.model == \"mistral-large-latest\"",
+        "detail": "tests.test_rag",
+        "documentation": {}
+    },
+    {
+        "label": "test_rag_ask_question_real",
+        "kind": 2,
+        "importPath": "tests.test_rag",
+        "description": "tests.test_rag",
+        "peekOfCode": "def test_rag_ask_question_real():\n    \"\"\"\n        Vérifie que Mistral répond à une question bien réelle\n    \"\"\"\n    index_path = \"faiss_index_events\"\n    if not os.path.exists(index_path):\n        pytest.skip('Index absent.')\n    rag = RAGManager(index_path=index_path)\n    #On pose une question vaste qui sera trouvée à coup sûr\n    question = \"Quels évènements sont disponibles ?\"",
+        "detail": "tests.test_rag",
+        "documentation": {}
+    },
+    {
+        "label": "TEMP_INDEX_PATH",
+        "kind": 5,
+        "importPath": "tests.test_rag",
+        "description": "tests.test_rag",
+        "peekOfCode": "TEMP_INDEX_PATH = Path(__file__).resolve().parents[1] / \"faiss_index_test\"\n@pytest.fixture(scope=\"module\", autouse=True)\ndef setup_test_index():\n    \"\"\"\n        Crée un petit index FAISS de test avant de lancer les test du module.\n        Supprime le dossier après tests.\n    \"\"\"\n    #On prépare les faux events\n    fake_events = [\n        {",
+        "detail": "tests.test_rag",
+        "documentation": {}
+    }
+]

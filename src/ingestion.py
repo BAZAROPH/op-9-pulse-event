@@ -1,79 +1,119 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
+import logging
 import requests
 import re
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_mistralai import MistralAIEmbeddings
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from datetime import datetime, timedelta
 
 load_dotenv()
+#Créer un logger pour l'ingestion
+logger_ingest = logging.getLogger("INGESTION")
+
+os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 def get_events(params={}):
     """
         Retourne les évènements de open agenda en fonction des paramètres de filtre qui lui sont fourni
     """
     endpoint_url = os.getenv("OPEN_AGENGA_ENDPOINT", "Pas durl")
+    logger_ingest.info(f"Connexion à : {endpoint_url}")
     print(f"Connexion à : {endpoint_url}")
     
     response = requests.get(endpoint_url, params=params)
 
     if response.status_code != 200:
+        logger_ingest.error(f"❌ Erreur code : {response.status_code}")
         print(f"Erreur code : {response.status_code}")
         print(f"Erreur API : {response.text}")
         response.raise_for_status()
-    
-    return response.json().get("results")
+
+    results = response.json().get("results", [])
+    logger_ingest.info(f"{len(results)} évènements récupérés.")
+    return results
 
 
-def process_and_save_to_faiss(events):
+def process_and_save_to_faiss(events, output_path=PROJECT_ROOT / "faiss_index_events"):
     """
         Transforme les JSON d'Open Agenda en vecteurs et les sauvegarde localement
+        Nettoyage Pandas et enrichissement des métadonnées inclus
     """
+    import pandas as pd
+    import re
+
+    #On transforme la liste d'évènements en DataFrame pour un nettoyage massif
+    df = pd.DataFrame(events)
+
+    #1 Nettoyage avec Pandas
+    #Remplacer les None par des chaînes vides ou des valeurs par défaut
+    logger_ingest.info("Nettoyage des données via Pandas...")
+    df['title_fr'] = df['title_fr'].fillna("Évènement sans titre")
+    df['description_fr'] = df['description_fr'].fillna("Description en français non pécisée")
+    df['longdescription_fr'] = df['longdescription_fr'].fillna("")
+    df['conditions_fr'] = df['conditions_fr'].fillna("Non précisé")
+    df['location_name'] = df['location_name'].fillna("Lieu non précisé")
+    df['location_city'] = df['location_city'].fillna("Ville non précisée")
+    df['location_address'] = df['location_address'].fillna("Adresse non communiquée")
+    df['daterange_fr'] = df['daterange_fr'].fillna("Date non communiquée")
+    
+    #Nettoyage HTML sur toute la colonne longdescription
+    df['clean_long_desc'] = df['longdescription_fr'].apply(lambda x: re.sub('<[^<]+?>', '', str(x)) if x else "")
+
+    #Extraction propre des âges (on garde des entiers pour les filtres futurs)
+    df['age_min'] = pd.to_numeric(df['age_min'], errors='coerce').fillna(0).astype(int)
+    df['age_max'] = pd.to_numeric(df['age_max'], errors='coerce').fillna(99).astype(int)
+
     documents_list = []
 
     #Configurer le splitter pour les chunks
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800, 
-        chunk_overlap=200, 
+        chunk_size=1024, 
+        chunk_overlap=250, 
         separators=["\n\n", "\n", ".", "?", "!", " "]
     )
 
-    for event in events:
-        #1 Préparation du texte (Fusion titre + description)
-        event_title = event.get("title_fr", "Évènement sans titre")
-        event_description = event.get("description_fr", "")
-        event_long_desc = event.get("longdescription_fr", "")
-        event_city = event.get("location_city", "Lieu non précisé")
-        event_address = event.get("location_address", "")
-        event_pricing = event.get("conditions_fr", "Non précisé")
+    logger_ingest.info("Découpage en chunks (1024/250)...")
 
-        #Nettoyage des balises HTML dans la description longue
-        clean_details = re.sub('<[^<]+?>', '', event_long_desc) if event_long_desc else ""
-
-        #2 Construction du texte pour la recherche sémantique
-        #On met les informations les plus riche ici
+    #On itère sur les lignes nettoyées du DataFrame
+    for _, row in df.iterrows():
+        
+        #2 Construction du texte pour la recherche sémantique (Le "Cerveau")
+        #On inclut l'adresse et le prix car l'utilisateur peut chercher "gratuit à bordeaux"
         semantic_content = (
-            f"Title: {event_title}\n"
-            f"City: {event_city}\n"
-            f"Description: {event_description}\n"
-            f"Details: {clean_details}"
+            f"IDENTITÉ DE L'ÉVÉNEMENT :\n"
+            f"QUOI : {row['title_fr']}\n"
+            f"OÙ : {row['location_name']}, {row['location_address']}, {row['location_city']}\n"
+            f"QUAND : {row['daterange_fr']}\n"
+            f"CONDITIONS OU PRIX : {row['conditions_fr']}\n"
+            f"DESCRIPTION : {row['description_fr']}\n"
+            f"DÉTAILS COMPLÉMENTAIRES : {row['clean_long_desc']}"
         )
-
-        #Découper le full_text en chunk
+                #Découper le full_text en chunk
         text_chunks = text_splitter.split_text(semantic_content)
 
-        #3 Stocker les infos pratiques dans les métadatas
+        #3 Stocker le maximum d'infos pertinentes dans les métadatas (Le "Filtre")
         metadata_payload = {
-            "uid": event.get("uid"),
-            "url": event.get("canonicalurl"),
-            "image_url": event.get("image"),
-            "address": event_address,
-            "price": event_pricing,
-            "schedule": event.get("daterange_fr"),
-            "venue_name": event.get("location_name"),
-            "city": event_city
+            "uid": str(row.get("uid")),
+            "url": row.get("canonicalurl"),
+            "image_url": row.get("image"),
+            "title": row['title_fr'],
+            "address": row['location_address'],
+            "price": row['conditions_fr'],
+            "schedule": row['daterange_fr'],
+            "venue_name": row['location_name'],
+            "city": row['location_city'],
+            "postal_code": row.get("location_postalcode"),
+            "region": row.get("location_region"),
+            "age_min": row['age_min'],
+            "age_max": row['age_max'],
+            "latitude": row.get("location_coordinates", {}).get("lat") if isinstance(row.get("location_coordinates"), dict) else None,
+            "longitude": row.get("location_coordinates", {}).get("lon") if isinstance(row.get("location_coordinates"), dict) else None,
+            "updated_at": row.get("updatedat")
         }
 
         #Transformer chaque chunk en Document LangChain
@@ -88,27 +128,33 @@ def process_and_save_to_faiss(events):
 
     #4 Initialisation du modèle d'embedding
     #On transforme les phrases en vecteurs sentence avec sentence-trasnformer qui est local et gratuit. Idéal pour un POC
-    model_embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    model_embeddings = MistralAIEmbeddings(
+        model="mistral-embed",
+        api_key=os.getenv("MISTRAL_API")
+    )
 
     #5 Création de l'index FAISS à partir de tous les documents
+    logger_ingest.info(f"🧠 Vectorisation de {len(documents_list)} chunks...")
     print(f"Vectorisation de {len(documents_list)} chunks...")
     vector_store = FAISS.from_documents(documents_list, model_embeddings)
 
     #6 Enregistrer l'index en local
     #Cela créer un dossier "faiss_index_events" contenant l'index et les métadonnées
-    output_directory = "faiss_index_events"
-    vector_store.save_local(output_directory)
+    logger_ingest.info(f"💾 Sauvegarde dans : {output_path}")
+    vector_store.save_local(output_path)
 
-    print(f"Indexation terminée et sauvegardée dans '{output_directory}'")
+    print(f"Indexation terminée et sauvegardée dans '{output_path}'")
+    logger_ingest.info("Indexation terminée !")
 
 
 #----- Test
 if __name__ == "__main__":
     start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
     end_date = (datetime.now() + timedelta(days=365)).strftime("%Y-%m-%d")
+    location_city="Bordeaux"
     
     query_params = {
-        "where": f"firstdate_begin >= '{start_date}' AND firstdate_begin <= '{end_date}'",
+        "where": f"firstdate_begin >= '{start_date}' AND firstdate_begin <= '{end_date}' AND location_city='{location_city}'",
         "limit": 100
     }
 
